@@ -12,8 +12,10 @@
   },
   "main": "background.js",
   "dependencies": {
+    "table2excel": "^1.0.4",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.3"
+    "vue-excel-xlsx": "^1.2.2",
+    "vue-mathjax": "^0.1.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~5.0.0",
