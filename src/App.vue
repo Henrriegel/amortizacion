@@ -41,17 +41,10 @@
           <option value="Mensual">Mensual</option>
           <option value="Anual">Anual</option>
         </select>
-
-        <p style="height: 25px; width:fit-content; transform: translateX(-65%);">capitalizable</p>
-
-        <select v-model="creditForm.capitalizable" name="capitalizable" id="capitalizable" placeholder="Seleccione tiempo"  style="height: 25px; width:fit-content; transform: translateX(-40%);" required>
-          <option disabled value="">Elija una:</option>
-          <option value="Mensualmente">Mensualmente</option>
-          <option value="Anualmente">Anualmente</option>
-        </select>
       </div>
 
-      <button class="b1" type="submit" style="margin: 0% 30% 3% 30%">Generar ciclo de vida del crédito</button>
+      <button :disabled="success" class="b1" type="submit" style="margin: 0% 30% 3% 30%">Generar ciclo de vida del crédito</button>
+      <button v-if="success" @click="deleterows()" class="b1" type="submit" style="margin: 0% 30% 3% 30%">Cancelar</button>
     </form>
     <div>
       <text style="color:blue; font-size: 25px; text-align: center; width: 100%;">La Formula de la anualidad es:</text> <br>
@@ -103,13 +96,13 @@
           plazo: "",
           tiempoPlazo: "",
           tasaInteres: "",
-          interesTiempo: "",
-          capitalizable: ""
+          interesTiempo: ""
         },
         a: 0,
         n: 0,
         i: 0,
         P: 0,
+        meses:0,
         success: false
       };
     },
@@ -118,27 +111,22 @@
         this.P = parseFloat(this.creditForm.valorPresente);
         this.n = parseFloat(this.creditForm.plazo);
         this.i = parseFloat(this.creditForm.tasaInteres) / 100;
-        if (isNaN(this.P) || isNaN(this.n) || isNaN(this.i)) {
+        if (isNaN(this.P) || isNaN(this.n) || isNaN(this.i) || this.P==0 || this.n==0 || this.i==0) {
           this.formError = "El formulario se llenó mal";
           this.erraseForm();
         } else {
-          if (this.creditForm.capitalizable == "Mensualmente") {
-            if (this.creditForm.tiempoPlazo == "Años") this.n *= 12;
-            if (this.creditForm.interesTiempo == "Anual") this.i /= 12;
-          } else {
-            if (this.creditForm.tiempoPlazo == "Meses") this.n /= 12;
-            if (this.creditForm.interesTiempo == "Mensual") this.i *= 12;
-          }
+          if (this.creditForm.tiempoPlazo == "Años") this.n *= 12;
+          if (this.creditForm.interesTiempo == "Anual") this.i /= 12;
           this.a = (this.P * this.i * 1.16) / (1 - (1 / ((1 + this.i * 1.16) ** this.n)));
           this.fillTable();
           this.success = true;
+          this.formError = "";
         }
       },
       fillTable() {
         let table = document.getElementById("lifeCycleTable");
         let saldo_anterior = this.P;
         for (let i = 1; i <= this.n; i++) {
-          
           let interes = saldo_anterior * this.i;
           let iva = interes*.16;
           let abono = this.a - interes - iva;
@@ -167,6 +155,17 @@
         this.creditForm.tasaInteres = "";
         this.creditForm.interesTiempo = "";
         this.creditForm.capitalizable = "";
+        this.P = 0;
+        this.n = 0;
+        this.i = 0;
+      },
+      deleterows(){
+        let table = document.getElementById("lifeCycleTable");
+        for (let i = 1; i <= this.n; i++) {
+          table.deleteRow(-1);
+        }
+        this.erraseForm();
+        this.success=false;
       }
     },
     components: { 
