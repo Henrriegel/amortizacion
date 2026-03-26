@@ -44,26 +44,26 @@ Antes de ejecutar el proyecto necesitas:
 ## Instalación
 
 Clona el repositorio:
-
+```
 git clone https://github.com/Henrriegel/amortizacion.git  
 cd amortizacion  
-
+```
 Instala dependencias:
-
+```
 npm install  
-
+```
 ---
 
 ## Ejecución en desarrollo
 
 Primero inicia el frontend:
-
+```
 npm run dev  
-
+```
 Luego, en otra terminal, inicia Electron:
-
+```
 npm run electron  
-
+```
 Esto abrirá la aplicación como app de escritorio.
 
 ---
@@ -71,13 +71,13 @@ Esto abrirá la aplicación como app de escritorio.
 ## Ejecutar solo en navegador
 
 También puedes probar la app sin Electron:
-
+```
 npm run dev  
-
+```
 Y abrir:
-
+```
 http://localhost:5173  
-
+```
 o el enlace que te muestre la salida
 
 ---
@@ -85,13 +85,13 @@ o el enlace que te muestre la salida
 ## Build de producción
 
 Para generar el instalador de la aplicación:
-
+```
 npm run dist  
-
+```
 El resultado se generará en la carpeta:
-
+```
 release/  
-
+```
 ---
 
 ## Modernización del proyecto
@@ -113,3 +113,7 @@ Cambios realizados:
 
 - El proyecto fue modernizado manteniendo su funcionalidad original  
 - La lógica de cálculo se conserva, pero la infraestructura fue actualizada 
+
+## Preview
+
+![App Screenshot](docs/app-preview.png)
